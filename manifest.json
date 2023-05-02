@@ -2,11 +2,20 @@
     "manifest_version": 3,
     "version": "1.0",
     "name": "QuickMark",
+    "description": "A simple bookmarker that allows saving of the currently active tab or all tabs in the browser window. The links are saved in local storage.",
+    "icons": {
+			"16": "icon.png",
+			"48": "icon.png",
+			"128": "icon.png"
+		},
     "action": {
         "default_popup": "index.html",
-        "default_icon": "icon.png"
+        "default_icon": "icon.png",
+        "default_title": "QuickMark"
     },
     "permissions": [
-        "tabs"
+        "tabs",
+        "windows",
+        "activeTab"
     ]
 }

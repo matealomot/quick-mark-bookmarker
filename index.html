@@ -5,21 +5,89 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Extensions</title>
+    <title>QuickMark</title>
 </head>
 <body>
-    <input type="text" name="" id="input-el" placeholder="http link...">
-    <input type="text" name="" id="input-el-name" placeholder="name of the link...">
-    <div class="container">
-        <button id="input-btn">Save Input</button>
-        <button id="delete-btn">Delete All</button>
-        <button id="tab-btn">Save Tab</button>
+
+  <header class="headerfooter">
+    <button class="buttons" id="addTab">Add Tab</button>
+    <button class="buttons" id="addAll">Add All Tabs</button>
+    <button class="buttons" id="deleteAll">Delete All Tabs</button>
+    <button class="buttons" id="settings"><img src="settings.png" alt="Cogwheel icon"></button>
+
+    <div id="colorPicker" style="display: none">
+      <div class="box">
+        <div class="elementBox">
+          <div class="element_color">
+            <label>Body Color</label>
+            <input type="color" id="bodyColor" name="bodyColor" value="#E0DEDE">
+            <div>
+              <button class="buttons" id="saveBodyColor">Set</button>
+              <button class="buttons" id="resetBodyColor">Reset</button>
+            </div>
+          </div>
+
+          <div class="element_color">
+            <label>Bookmark Color</label>
+            <input type="color" id="bookmarkColor" name="bookmarkColor" value="#FFE5EA">
+            <div>
+              <button class="buttons" id="saveBookmarkColor">Set</button>
+              <button class="buttons" id="resetBookmarkColor">Reset</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="elementBox">
+          <div class="element_color">
+            <label>Header Color</label>
+            <input type="color" id="headerColor" name="headerColor" value="#FFBFCB">
+            <div>
+              <button class="buttons" id="saveHeaderColor">Set</button>
+              <button class="buttons" id="resetHeaderColor">Reset</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="elementBox">
+          <div class="element_color">
+            <label>Button Color</label>
+            <input type="color" id="buttonColor" name="buttonColor" value="#FFE5EA">
+            <div>
+              <button class="buttons" id="saveButtonColor">Set</button>
+              <button class="buttons" id="resetButtonColor">Reset</button>
+            </div>
+          </div>
+
+          <div class="element_color">
+            <label>Border Color</label>
+            <input type="color" id="borderColor" name="borderColor" value="#FF54F1">
+            <div>
+              <button class="buttons" id="saveBorderColor">Set</button>
+              <button class="buttons" id="resetBorderColor">Reset</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="colorPickerButtons">
+          <button class="buttons" id="resetSettings">Reset All to Default</button>
+        </div>
+
+      </div>
     </div>
+  </header>
 
-    <ul id="ul-el">
+  <main>
+    <div class="selectionBox" id="selectionBox" style="display: none">
+      <button class="buttons" id="delete_selected">Delete Selected</button>
+      <button class="buttons" id="diselect_all">Diselect All</button>
+      <button class="buttons" id="select_all">Select All</button>
+    </div>
+    <div id="container">
 
-    </ul>
+    </div>
+  </main>
 
-    <script src="script.js"></script>
+
+  <script src="script.js" charset="utf-8"></script>
 </body>
 </html>

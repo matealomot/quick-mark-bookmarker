@@ -1,2 +1,2 @@
-# Quick-marker
-A chrome extension that allows saving of current tabs or manually added links into the local storage for the purpose of reopening them later.
+# quick-mark-bookmarker
+Chrome extensions - little bookmarker that allows saving of current tabs or manually added links
