@@ -105,23 +105,6 @@ function createLink(id, name, title, httpLink) {
 
 //.........................
 
-// Checks the length of the link title so that it can be shortened if it exceeds 30 characters
-
-function checkTitleLength(title) {
-  if(title.length > 30) {
-      const array = Array.from(title);
-      array.splice(30);
-      array.push("...");
-      title = array.join("");
-      return title;
-  }
-  else {
-    return title;
-  };
-};
-
-//.........................
-
 // Returns a random number that's later passed as a id to links inside the array and local storage
 
 function idGenerator() {
@@ -250,7 +233,7 @@ addOneTab.addEventListener("click", () => {
       let tabID = idGenerator();
       let tabName = tab[0].title;
       let tabURL = tab[0].url;
-      let tabTitle = checkTitleLength(tab[0].title);
+      let tabTitle = tab[0].title;
 
       let newLink = createLink(tabID, tabName, tabTitle, tabURL);
       createDiv(newLink);
@@ -264,7 +247,7 @@ addOneTab.addEventListener("click", () => {
       let tabID = idGenerator();
       let tabName = tab[0].title;
       let tabURL = tab[0].url;
-      let tabTitle = checkTitleLength(tab[0].title);
+      let tabTitle = tab[0].title;
 
       let newLink = createLink(tabID, tabName, tabTitle, tabURL);
       createDiv(newLink);
@@ -287,7 +270,7 @@ addTabs.addEventListener("click", () => {
         let tabID = idGenerator();
         let tabName = tab.title;
         let tabURL = tab.url;
-        let tabTitle = checkTitleLength(tab.title);
+        let tabTitle = tab.title;
 
         let newLink = createLink(tabID, tabName, tabTitle, tabURL);
         createDiv(newLink);
@@ -304,7 +287,7 @@ addTabs.addEventListener("click", () => {
         let tabID = idGenerator();
         let tabName = tab.title;
         let tabURL = tab.url;
-        let tabTitle = checkTitleLength(tab.title);
+        let tabTitle = tab.title;
 
         let newLink = createLink(tabID, tabName, tabTitle, tabURL);
         createDiv(newLink);

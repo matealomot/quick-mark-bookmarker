@@ -71,10 +71,13 @@ main {
 }
 
 .tabBlock > a {
-  text-align: center;
   padding: 0.5rem;
   text-decoration: none;
-  width: 90%;
+  width: 35rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-right: auto;
 }
 
 a:visited {
