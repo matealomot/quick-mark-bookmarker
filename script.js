@@ -1,39 +1,45 @@
 // VARIABLES  --------------------
 
-const body = document.querySelector('body'); // the body of the page
-const header = document.querySelector('header'); // the header of the page
-const buttons = document.querySelectorAll('button'); // the buttons that appear across the page and settings
-const addOneTab = document.getElementById("addTab"); // button that adds the currently active tab
-const addTabs = document.getElementById("addAll"); // button that adds all the tabs in the current window
-const deleteTabs = document.getElementById("deleteAll"); // button that deletes all the tabs
-const selectAll = document.getElementById("select_all"); // button that checks all checkmarks
-const diselectAll = document.getElementById("diselect_all"); // button that unchecks all checkmarks
-const deleteSelected = document.getElementById('delete_selected'); // button that deletes all checkmarked tabs
-const settings = document.getElementById("settings"); // button that opens up the settings for customizing the extension
-const bookmarks = document.getElementById("container"); // the main container where the saved tabs are displayed on screen
-const settingsTab = document.getElementById("colorPicker"); // container with the settings for customizing the extension
-const resetSettings = document.getElementById("resetSettings"); // button inside settings that resets all input selections to the default colors
-const setBody = document.getElementById("saveBodyColor"); // button that sets a new desired color for the body based on the value of the color input field
-const setHeader = document.getElementById("saveHeaderColor"); // button that sets a new desired color for the header based on the value of the color input field
-const setButton = document.getElementById("saveButtonColor"); // button that sets a new desired color for the buttons (not "deleteBlock" buttons inside tabBlock) based on the value of the color input field
-const setBorder = document.getElementById("saveBorderColor"); // button that sets a new desired color for the borders on buttons and bookmarks based on the value of the color input field
-const setBookmarks = document.getElementById("saveBookmarkColor"); // button that sets a new desired color for the bookmarks (tabBlock) based on the value of the color input field
-const resetBody = document.getElementById("resetBodyColor"); // button that resets the input color field in the settings to default body color
-const resetHeader = document.getElementById("resetHeaderColor"); // button that resets the input color field in the settings to default header color
-const resetButtonColor = document.getElementById("resetButtonColor"); // button that resets the input color field in the settings to default button color
-const resetBookmarkColor = document.getElementById("resetBookmarkColor"); // button that resets the input color field in the settings to default bookmark (tabBlock) color
-const resetBorderColor = document.getElementById("resetBorderColor");
+import {
+  addOneTab, 
+  addTabs, 
+  deleteTabs, 
+  selectAll, 
+  diselectAll, 
+  deleteSelected, 
+  settingButton, 
+  resetSettingsButton, 
+  setBody, 
+  setHeader, 
+  setFont,
+  setButton, 
+  setBorder, 
+  setBookmarks, 
+  resetBody, 
+  resetHeader,
+  resetFont, 
+  resetButtonColorButton, 
+  resetBookmarkColorButton, 
+  resetBorderColorButton,
+  buttons,
+  body,
+  header,
+  bookmarks,
+  settingsTab,
+  dataFromLocalStorage,
+  bodyColorData,
+  headerColorData,
+  buttonsColorData,
+  borderColorData,
+  fontsColorData,
+} from './variables.js';
+
 let allTabs = []; // the main array which stores all the saved tabs and is saved in local storage for further storing/reading under the key name "myData"
-let dataFromLocalStorage = JSON.parse(localStorage.getItem("myData")); // the data that is currently stored in local storage (allTabs array which is either empty or full)
-let bodyColorData = JSON.parse(localStorage.getItem("bodyColor")); // the color for the body that's saved in local storage
-let headerColorData = JSON.parse(localStorage.getItem("headerColor")); // the color for the header that's saved in local storage
-let buttonsColorData = JSON.parse(localStorage.getItem("buttonColor")); // the color for the buttons that's saved in local storage
-let borderColorData = JSON.parse(localStorage.getItem("borderColor"));
-//.........................
 
 // Checking LocalStorage for any data and if true, displaying the data
 
 if(dataFromLocalStorage) {
+  let elements = document.getElementsByTagName("*");
   allTabs = dataFromLocalStorage;
   allTabs.forEach(element => createDiv(element));
   body.style.backgroundColor = bodyColorData;
@@ -44,9 +50,14 @@ if(dataFromLocalStorage) {
   });
   settingsTab.style.backgroundColor = bodyColorData;
   settingsTab.style.border = `1px solid ${borderColorData}`;
+
+  for(let i = 0; i < elements.length; i++) {
+    elements[i].style.color = fontsColorData;
+  };
 }
 else {
-  bookmarks.innerHTML = "<p>No saved tabs</p>";
+  let elements = document.getElementsByTagName("*");
+  bookmarks.innerHTML = fontsColorData ? `<p class="no_tabs" style="color: ${fontsColorData}">No saved tabs</p>` : "<p class='no_tabs'>No saved tabs</p>";
   body.style.backgroundColor = bodyColorData;
   header.style.backgroundColor = headerColorData;
   buttons.forEach(button => {
@@ -55,6 +66,10 @@ else {
   });
   settingsTab.style.backgroundColor = bodyColorData;
   settingsTab.style.borderLeft = `1px solid ${borderColorData}`;
+
+  for(let i = 0; i < elements.length; i++) {
+    elements[i].style.color = fontsColorData;
+  };
 };
 
 //.........................
@@ -69,6 +84,7 @@ if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
   let bookmarkColor = document.getElementById("bookmarkColor").value = "#1E1E1E";
   let buttonColor = document.getElementById('buttonColor').value = "#1E1E1E";
   let borderColor = document.getElementById('borderColor').value = "#000000";
+
 }
 else if(window.matchMedia('(prefers-color-scheme: light)').matches) {
   // Light mode is enabled
@@ -144,8 +160,8 @@ function checkForCheckboxes() {
           if (checkboxes[i].checked) {
             isChecked = true;
             break;
-          }
-        }
+          };
+        };
         if(isChecked) {
           const selectionBox = document.getElementById("selectionBox");
           selectionBox.style.display = "flex";
@@ -167,13 +183,13 @@ checkForCheckboxes();
 function createDiv(element) {
   let bookmarkColorData = JSON.parse(localStorage.getItem("bookmarkColor"));
   let borders = JSON.parse(localStorage.getItem("borderColor"));
+  let fontsColorData = JSON.parse(localStorage.getItem("fontsColor"));
   const tabBlock = document.createElement('div');
   tabBlock.classList.add("tabBlock");
 
-  if(bookmarkColorData) {
-    tabBlock.style.backgroundColor = bookmarkColorData;
-    tabBlock.style.border = `1px solid ${borders}`;
-  }
+  if(bookmarkColorData) { tabBlock.style.backgroundColor = bookmarkColorData; };
+
+  if(borders) { tabBlock.style.border = `1px solid ${borders}`; };
 
   const deleteBlock = document.createElement('button');
   deleteBlock.innerText = "X";
@@ -185,6 +201,7 @@ function createDiv(element) {
   title.setAttribute("id", element.id);
   title.setAttribute("title", element.linkName);
   title.setAttribute("target", "_blank");
+  if(fontsColorData) { title.style.color = fontsColorData; };
 
   const checkMark = document.createElement('input');
   checkMark.setAttribute('type', 'checkbox');
@@ -201,7 +218,7 @@ function createDiv(element) {
       if(e.target.classList.contains("deleteBlock")) {
           e.target.parentElement.remove();
           localStorage.removeItem("myData");
-          bookmarks.innerHTML = "<p>No saved tabs</p>";
+          bookmarks.innerHTML = fontsColorData ? `<p class="no_tabs" style="color: ${fontsColorData}">No saved tabs</p>` : "<p class='no_tabs'>No saved tabs</p>";
           allTabs = [];
       };
     }
@@ -212,7 +229,7 @@ function createDiv(element) {
           for(let i = 0; i < allTabs.length; i++) {
             if(allTabs[i].id == targetID) {
               arrayID = i;
-            }
+            };
           };
           e.target.parentElement.remove();
           allTabs.splice(arrayID, 1);
@@ -227,7 +244,9 @@ function createDiv(element) {
 // Adds the current active tab as a bookmark
 
 addOneTab.addEventListener("click", () => {
-  if(bookmarks.innerHTML == "<p>No saved tabs</p>") {
+  const noTabs = document.querySelector('.no_tabs');
+
+  if(bookmarks.contains(noTabs)) {
     chrome.tabs.query({currentWindow: true, active: true}, function(tab) {
       bookmarks.innerHTML = "";
       let tabID = idGenerator();
@@ -263,7 +282,8 @@ addOneTab.addEventListener("click", () => {
 // Adds all tabs from current window as bookmarks
 
 addTabs.addEventListener("click", () => {
-  if(bookmarks.innerHTML == "<p>No saved tabs</p>") {
+  const noTabs = document.querySelector('.no_tabs');
+  if(bookmarks.contains(noTabs)) {
     chrome.tabs.query({ currentWindow: true }, function(tabs) {
       bookmarks.innerHTML = "";
       tabs.forEach(tab => {
@@ -306,9 +326,8 @@ addTabs.addEventListener("click", () => {
 
 deleteTabs.addEventListener("click", () => {
     allTabs.length = 0;
-    // bookmarks.innerHTML = "";
     localStorage.removeItem("myData");
-    bookmarks.innerHTML = "<p>No saved tabs</p>";
+    bookmarks.innerHTML = fontsColorData ? `<p class='no_tabs' style="color: ${fontsColorData}">No saved tabs</p>` : "<p class='no_tabs'>No saved tabs</p>";
     const selectionBox = document.getElementById("selectionBox");
     if(selectionBox.style.display != "none") {
       selectionBox.style.display = "none";
@@ -349,7 +368,7 @@ deleteSelected.addEventListener("click", () => {
       element.parentElement.remove();
       localStorage.removeItem("myData");
       selectionBox.style.display = "none";
-      bookmarks.innerHTML = "<p>No saved tabs</p>";
+      bookmarks.innerHTML = fontsColorData ? `<p class='no_tabs' style="color: ${fontsColorData}">No saved tabs</p>` : "<p class='no_tabs'>No saved tabs</p>";
       allTabs = [];
     });
   }
@@ -362,7 +381,7 @@ deleteSelected.addEventListener("click", () => {
         for(let i = 0; i < allTabs.length; i++) {
           if(allTabs[i].id == linkId) {
             elementId = i;
-          }
+          };
         };
         element.parentElement.remove();
         allTabs.splice(elementId, 1);
@@ -371,7 +390,7 @@ deleteSelected.addEventListener("click", () => {
     });
     if(allTabs.length == 0) {
       localStorage.removeItem("myData");
-      bookmarks.innerHTML = "<p>No saved tabs</p>";
+      bookmarks.innerHTML = fontsColorData ? `<p class='no_tabs' style="color: ${fontsColorData}">No saved tabs</p>` : "<p class='no_tabs'>No saved tabs</p>";
       allTabs = [];
     };
   };
@@ -381,7 +400,7 @@ deleteSelected.addEventListener("click", () => {
 
 // Displays the settings element (div) by changing its display to "block" (default is "none")
 
-settings.addEventListener("click", () => {
+settingButton.addEventListener("click", () => {
   if(settingsTab.style.display == "none") {
     settingsTab.style.display = "block";
   }
@@ -396,12 +415,12 @@ settings.addEventListener("click", () => {
 
 document.addEventListener("click", (e) => {
   const isClickInsideElement = settingsTab.contains(e.target);
-  const isClickInsideButton = settings.contains(e.target);
+  const isClickInsideButton = settingButton.contains(e.target);
 
   if (!isClickInsideElement && !isClickInsideButton) {
     settingsTab.style.display = 'none';
   };
-})
+});
 
 //.........................
 
@@ -427,6 +446,19 @@ setHeader.addEventListener("click", () => {
 });
 
 //.........................
+
+// Changes the color of the fonts based on the value from the header color input field and saves it to localstorage
+
+setFont.addEventListener("click", () => {
+  let fontColor = document.getElementById('fontColor').value;
+  let elements = document.getElementsByTagName("*");
+
+  for(let i = 0; i < elements.length; i++) {
+    elements[i].style.color = fontColor;
+  };
+
+  localStorage.setItem("fontsColor", JSON.stringify(fontColor));
+});
 
 // Changes the color of the bookmark element based on the value from the bookmark color input field and saves it to localstorage
 
@@ -492,25 +524,31 @@ resetHeader.addEventListener("click", () => {resetColorInput("headerColor", "#3A
 
 //.........................
 
-resetButtonColor.addEventListener("click", () => {resetColorInput("buttonColor", "#1E1E1E", "#F2F2F2", "#FFE5EA")});
+resetFont.addEventListener("click", () => {resetColorInput("fontColor", "#FFFFFF", "#000000", "#FFFFFF")})
 
 //.........................
 
-resetBookmarkColor.addEventListener("click", () => {resetColorInput("bookmarkColor", "#1E1E1E", "#F2F2F2", "#FFE5EA")});
+resetButtonColorButton.addEventListener("click", () => {resetColorInput("buttonColor", "#1E1E1E", "#F2F2F2", "#FFE5EA")});
 
 //.........................
 
-resetBorderColor.addEventListener("click", () => {resetColorInput("borderColor", "#000000", "#FF54F1", "#FF54F1")});
+resetBookmarkColorButton.addEventListener("click", () => {resetColorInput("bookmarkColor", "#1E1E1E", "#F2F2F2", "#FFE5EA")});
+
+//.........................
+
+resetBorderColorButton.addEventListener("click", () => {resetColorInput("borderColor", "#000000", "#FF54F1", "#FF54F1")});
 
 //.........................
 
 // Resets the colors of all the elements back to their default values (based on the OS theme) and clears the localstorage of said color values
 
-resetSettings.addEventListener("click", () => {
+resetSettingsButton.addEventListener("click", () => {
   let defaultHeader = "";
   let defaultButtonsBookmark = "";
   let defaultBorderColor = "";
   let defaultBodyColor = "";
+  let defaultFontColor = "";
+  let elements = document.getElementsByTagName("*");
 
 
   if(window.matchMedia('(prefers-color-scheme: dark)').matches) {
@@ -519,6 +557,7 @@ resetSettings.addEventListener("click", () => {
     defaultButtonsBookmark = "#1E1E1E";
     defaultBorderColor = "#000000";
     defaultBodyColor = "#898585";
+    defaultFontColor = "#FFFFFF";
   }
   else if(window.matchMedia('(prefers-color-scheme: light)').matches) {
     // Light mode is enabled
@@ -526,6 +565,7 @@ resetSettings.addEventListener("click", () => {
     defaultButtonsBookmark = "#F2F2F2";
     defaultBorderColor = "grey";
     defaultBodyColor = "#FFFFFF";
+    defaultFontColor = "000000";
   }
   else {
     // Default theme mode is enabled
@@ -533,6 +573,7 @@ resetSettings.addEventListener("click", () => {
     defaultButtonsBookmark = "#FFE5EA";
     defaultBorderColor = "#FF54F1";
     defaultBodyColor = "#E0DEDE";
+    defaultFontColor = "#FFFFFF";
   };
 
 
@@ -560,7 +601,11 @@ resetSettings.addEventListener("click", () => {
     };
   };
 
-  const keys = ["bodyColor", "headerColor", "buttonColor", "borderColor", "bookmarkColor"];
+  for(let i = 0; i < elements.length; i++) {
+    elements[i].style.color = defaultFontColor;
+  };
+
+  const keys = ["bodyColor", "headerColor", "buttonColor", "borderColor", "bookmarkColor", "fontsColor"];
 
   if(keys) {
     keys.forEach(key => {localStorage.removeItem(key)});

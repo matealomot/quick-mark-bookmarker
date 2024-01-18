@@ -140,7 +140,7 @@ a:visited {
 .element_color {
   padding: 0.3rem;
   text-align: center;
-  flex-grow: 1;
+  flex: 1;
 }
 
 .element_color > input {
