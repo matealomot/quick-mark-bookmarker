@@ -186,6 +186,35 @@ checkForCheckboxes();
 
 //.........................
 
+// Function that deletes an individual bookmark upon clicking its inner delete button
+
+function deleteBookmark(e) {
+	if(allTabs.length == 1) {
+		if(e.target.classList.contains("deleteBlock")) {
+			e.target.removeEventListener('click', deleteBookmark)
+			e.target.parentElement.remove();
+			localStorage.removeItem("myData");
+			bookmarks.innerHTML = fontsColorData ? `<p class="no_tabs" style="color: ${fontsColorData}">No saved tabs</p>` : "<p class='no_tabs'>No saved tabs</p>";
+			allTabs = [];
+		};
+	}
+	else {
+		if(e.target.classList.contains("deleteBlock")) {
+			let targetID = e.target.previousSibling.getAttribute('id');
+			let arrayID = 0;
+			for(let i = 0; i < allTabs.length; i++) {
+				if(allTabs[i].id == targetID) {
+					arrayID = i;
+				};
+			};
+			e.target.removeEventListener('click', deleteBookmark)
+			e.target.parentElement.remove();
+			allTabs.splice(arrayID, 1);
+			localStorage.setItem("myData", JSON.stringify(allTabs));
+		};
+	};
+};
+
 // Creates a div container (with a Delete button and checkbox) for each link that's saved so that it can be displayed on the page
 
 function createDiv(element) {
@@ -202,6 +231,7 @@ function createDiv(element) {
   const deleteBlock = document.createElement('button');
   deleteBlock.innerText = "X";
   deleteBlock.classList.add("deleteBlock");
+  deleteBlock.addEventListener("click", deleteBookmark);
 
   const title = document.createElement('a');
   title.innerText = element.title;
@@ -220,31 +250,6 @@ function createDiv(element) {
   tabBlock.appendChild(deleteBlock);
   tabBlock.appendChild(checkMark);
   bookmarks.appendChild(tabBlock);
-
-  deleteBlock.addEventListener("click", (e) => {
-    if(allTabs.length == 1) {
-      if(e.target.classList.contains("deleteBlock")) {
-          e.target.parentElement.remove();
-          localStorage.removeItem("myData");
-          bookmarks.innerHTML = fontsColorData ? `<p class="no_tabs" style="color: ${fontsColorData}">No saved tabs</p>` : "<p class='no_tabs'>No saved tabs</p>";
-          allTabs = [];
-      };
-    }
-    else {
-      if(e.target.classList.contains("deleteBlock")) {
-          let targetID = e.target.previousSibling.getAttribute('id');
-          let arrayID = 0;
-          for(let i = 0; i < allTabs.length; i++) {
-            if(allTabs[i].id == targetID) {
-              arrayID = i;
-            };
-          };
-          e.target.parentElement.remove();
-          allTabs.splice(arrayID, 1);
-          localStorage.setItem("myData", JSON.stringify(allTabs));
-      };
-    };
-  });
 };
 
 // EVENTS --------------------
@@ -335,6 +340,11 @@ addTabs.addEventListener("click", () => {
 deleteTabs.addEventListener("click", () => {
     allTabs.length = 0;
     localStorage.removeItem("myData");
+		const tabs = bookmarks.children;
+		for(let i = 0; i < tabs.length; i++) {
+			tabs[i].removeEventListener('click', deleteBookmark);
+			tabs[i].remove();
+		};
     bookmarks.innerHTML = fontsColorData ? `<p class='no_tabs' style="color: ${fontsColorData}">No saved tabs</p>` : "<p class='no_tabs'>No saved tabs</p>";
     const selectionBox = document.getElementById("selectionBox");
     if(selectionBox.style.display != "none") {
@@ -373,6 +383,7 @@ deleteSelected.addEventListener("click", () => {
   if(allTabs.length == 1) {
     let checkboxes = document.querySelectorAll('input[type="checkbox"]');
     checkboxes.forEach(element => {
+			element.removeEventListener('click', deleteBookmark);
       element.parentElement.remove();
       localStorage.removeItem("myData");
       selectionBox.style.display = "none";
@@ -391,6 +402,7 @@ deleteSelected.addEventListener("click", () => {
             elementId = i;
           };
         };
+				element.removeEventListener('click', deleteBookmark);
         element.parentElement.remove();
         allTabs.splice(elementId, 1);
         localStorage.setItem("myData", JSON.stringify(allTabs));
