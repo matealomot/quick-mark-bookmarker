@@ -37,6 +37,14 @@ const header = document.querySelector('header'); // the header of the page
 const bookmarks = document.getElementById("container"); // the main container where the saved tabs are displayed on screen
 const settingsTab = document.getElementById("colorPicker"); // container with the settings for customizing the extension
 
+// Color picker input fields in the settings
+
+let bodyColor = document.getElementById('bodyColor');
+let headerColor = document.getElementById('headerColor');
+let bookmarkColor = document.getElementById('bookmarkColor');
+let buttonColor = document.getElementById('buttonColor');
+let borderColor = document.getElementById('borderColor');
+
 // Buttons 
 
 const addOneTab = addTab; // button that adds the currently active tab
@@ -101,5 +109,10 @@ export {
   headerColorData,
   buttonsColorData,
   borderColorData,
-  fontsColorData
+  fontsColorData,
+  bodyColor,
+  headerColor,
+  bookmarkColor,
+  buttonColor,
+  borderColor
 };

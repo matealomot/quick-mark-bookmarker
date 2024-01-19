@@ -32,6 +32,11 @@ import {
   buttonsColorData,
   borderColorData,
   fontsColorData,
+	bodyColor,
+  headerColor,
+  bookmarkColor,
+  buttonColor,
+  borderColor
 } from './variables.js';
 
 let allTabs = []; // the main array which stores all the saved tabs and is saved in local storage for further storing/reading under the key name "myData"
@@ -51,8 +56,10 @@ if(dataFromLocalStorage) {
   settingsTab.style.backgroundColor = bodyColorData;
   settingsTab.style.border = `1px solid ${borderColorData}`;
 
-  for(let i = 0; i < elements.length; i++) {
-    elements[i].style.color = fontsColorData;
+	for(let i = 0; i < elements.length; i++) {
+		if(!elements[i].classList.contains('deleteBlock')) {
+			elements[i].style.color = fontsColorData;
+		};
   };
 }
 else {
@@ -68,7 +75,9 @@ else {
   settingsTab.style.borderLeft = `1px solid ${borderColorData}`;
 
   for(let i = 0; i < elements.length; i++) {
-    elements[i].style.color = fontsColorData;
+		if(!elements[i].classList.contains('deleteBlock')) {
+			elements[i].style.color = fontsColorData;
+		};
   };
 };
 
@@ -79,30 +88,29 @@ else {
 if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
   // Dark mode is enabled
   body.classList.add("dark");
-  let bodyColor = document.getElementById('bodyColor').value = "#898585";
-  let headerColor = document.getElementById('headerColor').value = "#3A3A3A";
-  let bookmarkColor = document.getElementById("bookmarkColor").value = "#1E1E1E";
-  let buttonColor = document.getElementById('buttonColor').value = "#1E1E1E";
-  let borderColor = document.getElementById('borderColor').value = "#000000";
-
+  bodyColor.value = "#898585";
+  headerColor.value = "#3A3A3A";
+  bookmarkColor.value = "#1E1E1E";
+  buttonColor.value = "#1E1E1E";
+  borderColor.value = "#000000";
 }
 else if(window.matchMedia('(prefers-color-scheme: light)').matches) {
   // Light mode is enabled
   body.classList.add("light");
-  let bodyColor = document.getElementById('bodyColor').value = "#FFFFFF";
-  let headerColor = document.getElementById('headerColor').value = "#F1F3F5";
-  let bookmarkColor = document.getElementById("bookmarkColor").value = "#F2F2F2";
-  let buttonColor = document.getElementById('buttonColor').value = "#F2F2F2";
-  let borderColor = document.getElementById('borderColor').value = "grey";
+  bodyColor.value = "#FFFFFF";
+  headerColor.value = "#F1F3F5";
+  bookmarkColor.value = "#F2F2F2";
+  buttonColor.value = "#F2F2F2";
+  borderColor.value = "grey";
 }
 else {
   // Default theme mode is enabled
   body.classList.remove("dark", "light");
-  let bodyColor = document.getElementById('bodyColor').value = "#E0DEDE";
-  let headerColor = document.getElementById('headerColor').value = "#FFBFCB";
-  let bookmarkColor = document.getElementById("bookmarkColor").value = "#FFE5EA";
-  let buttonColor = document.getElementById('buttonColor').value = "#FFE5EA";
-  let borderColor = document.getElementById('borderColor').value = "#FF54F1";
+  bodyColor.value = "#E0DEDE";
+  headerColor.value = "#FFBFCB";
+  bookmarkColor.value = "#FFE5EA";
+  buttonColor.value = "#FFE5EA";
+  borderColor.value = "#FF54F1";
 };
 
 // FUNCTIONS --------------------
@@ -454,7 +462,9 @@ setFont.addEventListener("click", () => {
   let elements = document.getElementsByTagName("*");
 
   for(let i = 0; i < elements.length; i++) {
-    elements[i].style.color = fontColor;
+		if(!elements[i].classList.contains('deleteBlock')) {
+			elements[i].style.color = fontColor;
+		};
   };
 
   localStorage.setItem("fontsColor", JSON.stringify(fontColor));
